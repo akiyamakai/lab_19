@@ -1,5 +1,4 @@
-﻿#include <iostream>
-#include <algorithm>
+#include <iostream>
 
 template <typename T, size_t rows, size_t cols>
 T findMinElement(T(&matrix)[rows][cols]) {
@@ -17,18 +16,17 @@ T findMinElement(T(&matrix)[rows][cols]) {
 template <typename T, size_t rows, size_t cols>
 void sortMainDiagonal(T(&matrix)[rows][cols]) {
     size_t minDimension = std::min(rows, cols);
-    T* diagonal = new T[minDimension];
-    for (size_t i = 0; i < minDimension; ++i) {
-        diagonal[i] = matrix[i][i];
-    }
 
-    std::sort(diagonal, diagonal + minDimension);
 
     for (size_t i = 0; i < minDimension; ++i) {
-        matrix[i][i] = diagonal[i];
+        for (size_t j = 0; j < minDimension - i - 1; ++j) {
+            if (matrix[j][j] > matrix[j + 1][j + 1]) {
+                T temp = matrix[j][j];
+                matrix[j][j] = matrix[j + 1][j + 1];
+                matrix[j + 1][j + 1] = temp;
+            }
+        }
     }
-
-    delete[] diagonal;
 }
 
 int main() {
